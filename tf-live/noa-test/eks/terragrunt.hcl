@@ -1,5 +1,5 @@
 terraform {
-  source = "git::git@github.com:noaramon/app-infra.git//tf-modules/eks?ref=aws-eks-0.0.2"
+  source = "git::git@github.com:noaramon/app-infra.git//tf-modules/eks?ref=aws-eks-0.0.3"
 }
 
 include "root" {
