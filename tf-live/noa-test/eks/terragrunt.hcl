@@ -39,6 +39,8 @@ inputs = {
       }
     }
   }
+  alb_sg = "sg-0f03e9082a9c1b3e6"
+  workers_sg = "sg-02141579ce0fe0dfc"
   tags = merge(local.default_tags.locals.default_tags, local.tags)
 }
 

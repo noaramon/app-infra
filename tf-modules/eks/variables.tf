@@ -45,3 +45,11 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "alb_sg" {
+  description = "ID of the ALB security group"
+}
+
+variable "workers_sg" {
+  description = "ID of the EKS workers"
+}

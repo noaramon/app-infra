@@ -103,23 +103,11 @@ resource "aws_iam_openid_connect_provider" "this" {
 }
 
 
-# resource "aws_security_group" "eks_worker_nodes_sg" {
-#   name        = "eks-worker-nodes-sg"
-#   description = "Security group for EKS worker nodes"
-#   vpc_id      = var.vpc_id
-#
-#   ingress {
-#     description = "Allow SSH access from specific IP"
-#     from_port   = 22
-#     to_port     = 22
-#     protocol    = "tcp"
-#     cidr_blocks = [""]
-#   }
-#
-#   egress {
-#     from_port = 0
-#     to_port   = 0
-#     protocol  = "-1"
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
-# }
+resource "aws_security_group_rule" "allow_alb_ingress" {
+  type        = "ingress"
+  from_port   = 80
+  to_port     = 80
+  protocol    = "tcp"
+  security_group_id = var.workers_sg
+  source_security_group_id = var.alb_sg
+}
