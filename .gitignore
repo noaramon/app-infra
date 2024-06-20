@@ -1,3 +1,6 @@
+# Local pycache
+__pycache__
+
 # Local .terraform directories
 **/.terraform/*
 
@@ -32,3 +35,6 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+
+.terragrunt.lock.hcl
+.terragrunt-cache

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Discover World Time</title>
+</head>
+<body>
+    <h1>Current Date and Time in Desired Cities</h1>
+        <ul>
+        {% for city, datetime in time.items() %}
+            <li><strong>{{ city }}:</strong> {{ datetime }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
