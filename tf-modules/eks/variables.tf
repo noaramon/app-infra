@@ -41,7 +41,7 @@ variable "enable_irsa" {
 }
 
 variable "tags" {
-  description = "Custom tags to set on the ECR"
+  description = "Custom tags to set on the EKS"
   type        = map(string)
   default     = {}
 }

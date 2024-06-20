@@ -1,5 +1,5 @@
 terraform {
-  source = "../../../tf-modules/ecr//"
+  source = "git::git@github.com:noaramon/app-infra.git//tf-modules/ecr?ref=aws-ecr-0.0.1"
 }
 
 include "root" {
@@ -36,7 +36,6 @@ terraform {
 }
 provider "aws" {
   region = "us-east-1"
-  shared_credentials_files = ["../../.creds"]
   default_tags {
     tags = var.tags
   }
