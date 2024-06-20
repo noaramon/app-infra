@@ -1,5 +1,5 @@
 terraform {
-  source = "git::git@github.com:noaramon/app-infra.git//tf-modules/ecr?ref=aws-vpc-0.0.1"
+  source = "git::git@github.com:noaramon/app-infra.git//tf-modules/vpc?ref=aws-vpc-0.0.1"
 }
 
 include "root" {
@@ -30,9 +30,9 @@ inputs = {
 }
 
 generate "provider" {
-  path = "provider.tf"
+  path      = "provider.tf"
   if_exists = "overwrite_terragrunt"
-  contents = <<EOF
+  contents  = <<EOF
 terraform {
   required_version = ">= 0.13"
 
