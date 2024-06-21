@@ -41,13 +41,15 @@ resource "aws_iam_role" "nodes" {
   name = "${var.name}-nodes"
 
   assume_role_policy = jsonencode({
-    Statement = [{
-      Action = "sts:AssumeRole"
-      Effect = "Allow"
-      Principal = {
-        Service = "ec2.amazonaws.com"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
       }
-    }]
+    ]
     Version = "2012-10-17"
   })
 }
@@ -97,17 +99,17 @@ data "tls_certificate" "this" {
 resource "aws_iam_openid_connect_provider" "this" {
   count = var.enable_irsa ? 1 : 0
 
-  client_id_list  = ["sts.amazonaws.com"]
+  client_id_list = ["sts.amazonaws.com"]
   thumbprint_list = [data.tls_certificate.this[0].certificates[0].sha1_fingerprint]
-  url             = aws_eks_cluster.this.identity[0].oidc[0].issuer
+  url = aws_eks_cluster.this.identity[0].oidc[0].issuer
 }
 
 
 resource "aws_security_group_rule" "allow_alb_ingress" {
-  type        = "ingress"
-  from_port   = 80
-  to_port     = 80
-  protocol    = "tcp"
-  security_group_id = var.workers_sg
+  type                     = "ingress"
+  from_port                = 8080
+  to_port                  = 8080
+  protocol                 = "tcp"
+  security_group_id        = var.workers_sg
   source_security_group_id = var.alb_sg
 }

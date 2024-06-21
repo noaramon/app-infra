@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: example-ecr-repo
+  repository: 092988563851.dkr.ecr.us-east-1.amazonaws.com/example-ecr-repo
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: 0.0.1
@@ -42,18 +42,22 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 8080
+  targetPort: 8080
 
 ingress:
   enabled: true
   className: "alb"
   annotations:
+    kubernetes.io/ingress.class: "alb"
     alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
     alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/backend-protocol: HTTP
   hosts:
     - host: example-app.example-repo.com
       paths:
         - path: /
-          pathType: ImplementationSpecific
+          pathType: Prefix
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
@@ -61,7 +65,7 @@ ingress:
 
 resources:
    limits:
-     cpu: 100m
+#     cpu: 100m
      memory: 128Mi
    requests:
      cpu: 100m
@@ -71,15 +75,18 @@ livenessProbe:
   httpGet:
     path: /health
     port: 8080
-    initialDelaySeconds: 3
-    periodSeconds: 3
+  timeoutSeconds: 5
+  initialDelaySeconds: 15
+  periodSeconds: 5
+  failureThreshold: 3
 readinessProbe:
   httpGet:
-    path: /health
+    path: /
     port: 8080
-    initialDelaySeconds: 3
-    periodSeconds: 3
-
+  timeoutSeconds: 5
+  initialDelaySeconds: 10
+  periodSeconds: 5
+  failureThreshold: 3
 autoscaling:
   enabled: true
   minReplicas: 1
