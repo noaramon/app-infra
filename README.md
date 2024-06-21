@@ -53,16 +53,12 @@ Simple time application
    - Routing tables
    - EKS cluster
    - ECR
-
-(Extra):
-- [X] Wrapped with Terragrunt
-
+- [X] Wrapped with Terragrunt(Extra)
 - [X] Create and deploy Helm3 chart for your application.
 - [ ] Ensure that you have an access to the application endpoint externally
 - [ ] Provide an external http link
 - [X] Upload your code to the Github public repository and provide link to us (put your code to the app, terraform, helm folders accordingly)
-(Extra):
-- [ ] Alternative to AWS ALB controller
+- [ ] Alternative to AWS ALB controller(Extra)
 
 ### Runbook from scratch (new environment)
 1. Authenticate with AWS
