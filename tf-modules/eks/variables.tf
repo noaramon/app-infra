@@ -53,3 +53,29 @@ variable "alb_sg" {
 variable "workers_sg" {
   description = "ID of the EKS workers"
 }
+
+variable "cluster_service_accounts" {
+  description = "EKS cluster and k8s ServiceAccount pairs. Each EKS cluster can have multiple k8s ServiceAccount. See README for details"
+  type        = map(string)
+  default     = {}
+}
+
+variable "create_role" {
+  description = "Whether to create a role"
+  type        = bool
+  default     = true
+}
+
+
+variable "assume_role_condition_test" {
+  description = "Name of the [IAM condition operator](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition_operators.html) to evaluate when assuming the role"
+  type        = string
+  default     = "StringEquals"
+}
+
+variable "create_policy" {
+  description = "Whether to create the IAM policy"
+  type        = bool
+  default     = true
+}
+
