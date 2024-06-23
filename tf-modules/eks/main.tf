@@ -89,6 +89,28 @@ resource "aws_eks_node_group" "this" {
 
   depends_on = [aws_iam_role_policy_attachment.nodes]
 }
+#
+# resource "helm_release" "cluster_autoscaler" {
+#   name             = "cluster-autoscaler"
+#   repository       = "https://kubernetes.github.io/autoscaler"
+#   chart            = "cluster-autoscaler"
+#   version = "9.37.0" // cluster-autoscaler appVersion 1.30.0
+#   create_namespace = false
+#   namespace        = "kube-system"
+#   set {
+#     name  = "autoDiscovery.clusterName"
+#     value = var.name
+#   }
+#   set {
+#     name  = "serviceAccount.create"
+#     value = true
+#   }
+#   set {
+#     name  = "serviceAccount.annotations.\\eks\\.amazonaws\\.com/role-arn"
+#     value = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/cluster-autoscaler"
+#   }
+# }
+#
 
 data "tls_certificate" "this" {
   count = var.enable_irsa ? 1 : 0
@@ -112,6 +134,20 @@ resource "aws_security_group_rule" "allow_alb_ingress" {
   protocol                 = "tcp"
   security_group_id        = var.workers_sg
   source_security_group_id = var.alb_sg
+}
+
+
+resource "helm_release" "aws_vpc_cni" {
+  name             = "aws-vpc-cni"
+  repository       = "https://aws.github.io/eks-charts"
+  chart            = "aws-vpc-cni"
+  version = "1.18.2" // AWS VPC CNI appVersion v1.18.2
+  create_namespace = false
+  namespace        = "kube-system"
+  set {
+    name  = "originalMatchLabels"
+    value = true
+  }
 }
 
 
@@ -173,7 +209,7 @@ data "aws_iam_policy_document" "assume_role_with_oidc" {
       condition {
         test     = var.assume_role_condition_test
         variable = "${replace(data.aws_eks_cluster.main.identity[0].oidc[0].issuer, "https://", "")}:aud"
-        values   = ["sts.amazonaws.com"]
+        values = ["sts.amazonaws.com"]
       }
     }
   }
@@ -201,7 +237,7 @@ resource "aws_iam_role_policy_attachment" "this" {
 }
 
 resource "helm_release" "alb_controller" {
-  name             = var.name
+  name             = "aws-load-balancer-controller"
   repository       = "https://aws.github.io/eks-charts"
   chart            = "aws-load-balancer-controller"
   version = "v1.7.1" // alb controller appVersion 2.7.0
@@ -210,7 +246,7 @@ resource "helm_release" "alb_controller" {
   #   atomic           = true
   #   wait          = true
   #   wait_for_jobs = true
-    timeout       = 120
+  timeout          = 120
 
   set {
     name  = "clusterName"

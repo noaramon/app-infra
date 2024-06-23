@@ -29,17 +29,17 @@ Simple time application
 - [ ] Docs
 
 ##### Helm:
-- [ ] Expend default chart
+- [ ] Insert [manual step to bootstrap](https://github.com/aws/eks-charts/tree/master/stable/aws-vpc-cni#adopting-the-existing-aws-node-resources-in-an-eks-cluster)
+- [ ] Expend default chart (templates)
 
 
 ### Todo
-- [ ] Solve liveness and readiness probes (same issue as unhealthy registered target in the ALB's TG)
 - [ ] Configure route53 to route the ALB
-- [ ] Granular TF modules
+- [ ] Modular TF modules
 - [ ] Push Self-owned chart to registry and add it to the terragrunt automation
 
 ### In Progress
-- [ ] Solve liveness and readiness probes
+
 
 ### Done ✓
 - [X] Create an application on Go/Python that serve HTTP requests at the next routes:
@@ -57,7 +57,7 @@ Simple time application
    - ECR
 - [X] Wrapped with Terragrunt(Extra)
 - [X] Create and deploy Helm3 chart for your application.
-- [ ] Ensure that you have an access to the application endpoint externally
+- [X] Ensure that you have an access to the application endpoint externally
 - [ ] Provide an external http link
 - [X] Upload your code to the Github public repository and provide link to us (put your code to the app, terraform, helm folders accordingly)
 
