@@ -44,7 +44,6 @@ resource "aws_subnet" "public" {
 }
 
 resource "aws_eip" "this" {
-
   tags = {
     Name = "${var.name}-nat"
   }

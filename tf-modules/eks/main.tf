@@ -137,6 +137,32 @@ resource "aws_security_group_rule" "allow_alb_ingress" {
 }
 
 
+######### cluster bootstrap #########
+
+resource "helm_release" "external_dns" {
+  name             = "external-dns"
+  repository       = "https://kubernetes-sigs.github.io"
+  chart            = "external-dns"
+  version = "1.14.5" // ExternalDNS appVersion 0.14.2
+  create_namespace = false
+  namespace        = "kube-system"
+}
+
+
+resource "helm_release" "aws_vpc_cni" {
+  name             = "aws-vpc-cni"
+  repository       = "https://aws.github.io/eks-charts"
+  chart            = "aws-vpc-cni"
+  version = "1.18.2" // AWS VPC CNI appVersion v1.18.2
+  create_namespace = false
+  namespace        = "kube-system"
+  set {
+    name  = "originalMatchLabels"
+    value = true
+  }
+}
+
+
 resource "helm_release" "aws_vpc_cni" {
   name             = "aws-vpc-cni"
   repository       = "https://aws.github.io/eks-charts"

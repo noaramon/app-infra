@@ -55,7 +55,7 @@ ingress:
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/backend-protocol: HTTP
   hosts:
-    - host: example-app.example-repo.com
+    - host: app.example-repo.com
       paths:
         - path: /
           pathType: Prefix
